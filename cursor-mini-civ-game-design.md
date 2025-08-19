@@ -116,6 +116,16 @@ Plots can be developed for specific roles by placing the appropriate worker and 
 - **Development Cost**: Credits and materials required to establish the development
 - **Production Output**: Higher resource ratings result in better production efficiency
 
+### 5.4 Starting Conditions
+**Player Starting Assets:**
+- **1 Town**: Starting base of operations
+- **TBD Credits**: Starting money (amount to be determined)
+- **1 Explorer**: Starting worker for discovery
+
+**World Generation:**
+- **Map**: Either read from file OR procedurally generated
+- **Computer Towns**: 0 or more existing communities to discover
+
 ---
 
 ## 6. Worker System
@@ -128,7 +138,7 @@ Plots can be developed for specific roles by placing the appropriate worker and 
 - **Trader**: Creates markets and manages trade relationships
 
 ### 6.2 Worker Mechanics
-- **Salary**: Paid in credits per turn
+- **Salary**: 1 credit per turn per worker
 - **Movement**: One plot per turn
 - **Hiring**: Explorers can hire local workers in discovered plots
 - **Specialization**: Each worker type has specific development abilities
