@@ -114,6 +114,73 @@ The market system allows plots to buy and sell resources with a single central m
 - **Plots produce resources** for sale or use
 - **Market facilitates transfer** between plots and players
 
+### 5.4 Crop System
+**Crop Types & Properties:**
+```javascript
+CROPS = {
+  wheat: {
+    waterPerTurn: 3,
+    sunlightPerTurn: 2,
+    growthTime: 1,       // turns to mature
+    soilRequirement: 2   // minimum soil rating needed
+  },
+  corn: {
+    waterPerTurn: 4,
+    sunlightPerTurn: 3,
+    growthTime: 2,
+    soilRequirement: 3
+  },
+  rice: {
+    waterPerTurn: 6,
+    sunlightPerTurn: 2,
+    growthTime: 3,
+    soilRequirement: 5
+  }
+}
+```
+
+**Farm Development:**
+- **Hire Farmer** (1 credit per turn)
+- **Buy seeds** from market for chosen crop
+- **Place farmer on plot** with appropriate resources
+- **Plot becomes developed** as farm
+- **Production starts next turn**
+
+**Production Formula:**
+- **Final Production** = `deratedProduction(plot, cropType)`
+- **Function considers**: `plot.soil_rating`, `plot.water`, `plot.sunlight`
+- **Resource consumption**: Water and sunlight consumed per turn based on crop type
+- **Market values**: All crop values determined by market supply/demand
+
+### 5.5 Mine System
+**Mine Development:**
+- **Hire Miner** (1 credit per turn)
+- **Buy energy, minerals, and iron** from market (initial investment)
+- **Place miner on plot** with appropriate resources
+- **Plot becomes developed** as mine
+- **Production starts next turn**
+
+**Mine Operations:**
+- **Ongoing costs**: Energy and minerals consumed per turn
+- **Production**: Based on plot resource ratings (coal, stone, ore)
+- **Resource consumption**: Energy and minerals needed to keep mine running
+
+### 5.6 Explorer System
+**Explorer Development:**
+- **Hire Explorer** (1 credit per turn)
+- **No initial resource costs** - just salary
+- **Place explorer on any plot** to start exploring
+
+**Explorer Actions:**
+- **Move**: Go to unsettled plot
+- **Settle**: Convert plot from unsettled to settled, reveal plot attributes
+
+**Explorer Mechanics:**
+- **No movement costs** - just the 1 credit per turn salary
+- **Settlement reveals** plot resource ratings and makes plot available for development
+- **Exploration enables** expansion by discovering new areas
+- **Player then hires** appropriate worker type for settled plots
+
 ---
 
 ## 6. Economic Balance

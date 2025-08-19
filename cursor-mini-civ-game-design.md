@@ -37,20 +37,20 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ### 3.1 Turn Structure
 **Turn Phases**:
-1. **Update Plots** - Production, market transactions, development
-2. **Hire/Fire Workers** - Manage workforce  
-3. **Move Workers** - Position workers for next turn
+1. **Market & Economy** - Buy/sell resources, transactions, worker salaries, resource consumption
+2. **Worker Actions** - Move, develop plots, work plots (with resources already available)
+3. **Plot Production** - Resources generated based on worker actions
 
 **Turn Flow**:
 - Each turn represents a period of development and exploration
-- Workers perform their actions based on their current location
-- Resources are generated and consumed during plot updates
-- New discoveries and community interactions occur during worker movement
+- Market activity happens first (buy resources needed for development)
+- Workers perform their actions with resources already available
+- Plot production follows from worker actions
 
 ### 3.2 Game State
 Game state is stored as a JSON dictionary in localStorage with the following structure:
 - **turn**: Current turn number
-- **phase**: Current phase ("update_plots", "hire_fire", "move_workers")
+- **phase**: Current phase ("market_economy", "worker_actions", "plot_production")
 - **plots**: Array of plot objects
 - **workers**: Array of worker objects
 
@@ -131,7 +131,7 @@ Plots can be developed for specific roles by placing the appropriate worker and 
 ## 6. Worker System
 
 ### 6.1 Worker Types
-- **Explorer**: Discovers new plots and hires local workers
+- **Explorer**: Discovers new plots and converts them from unsettled to settled
 - **Farmer**: Develops farms, produces agricultural resources
 - **Miner**: Develops mines, extracts finite resources
 - **Blacksmith**: Creates windmills, steam engines, tools
@@ -140,8 +140,23 @@ Plots can be developed for specific roles by placing the appropriate worker and 
 ### 6.2 Worker Mechanics
 - **Salary**: 1 credit per turn per worker
 - **Movement**: One plot per turn
-- **Hiring**: Explorers can hire local workers in discovered plots
+- **Hiring**: Any settled plot can hire workers (player chooses worker type)
 - **Specialization**: Each worker type has specific development abilities
+
+### 6.3 Worker Actions
+**Explorer Actions:**
+- **Move**: Go to unsettled plot
+- **Settle**: Convert plot from unsettled to settled, reveal plot attributes
+
+**Other Worker Actions:**
+- **Move**: Go to a settled plot
+- **Develop Plot**: Transform settled plot into specific type (requires resources)
+- **Work Plot**: Generate production from developed plot (ongoing action)
+
+**Key Rules:**
+- **No Worker = No Production**: Undeveloped plots and developed plots without workers produce nothing
+- **Worker Allocation**: Each worker can only do one action per turn
+- **Strategic Choices**: Balance between exploring/settling, developing new plots, and working existing plots
 
 ---
 
