@@ -148,11 +148,7 @@ Round 10: "You encounter a major trading city (15 buildings)"
 Round 15: "You discover an ancient capital (25 buildings)"
 ```
 
-### Turn Structure
-1. **Planning Phase** (30 seconds): Choose building placement and actions
-2. **Resolution Phase** (10 seconds): All buildings generate resources simultaneously
-3. **Exploration Phase** (20 seconds): Discover new areas and communities
-4. **Interaction Phase** (10 seconds): Trade with discovered communities
+
 
 ### Achievement System
 - **Size achievements**: "Reach 16 buildings", "Build a metropolis"
@@ -174,3 +170,86 @@ Round 15: "You discover an ancient capital (25 buildings)"
 - **Cultural exchange**: Learn new building types from advanced communities
 - **Resource competition**: Compete for limited resources and trade routes
 - **Cooperation**: Form alliances and share benefits with communities
+
+### Game Economy
+
+**Resource Categories:**
+
+**Collected Resources (Renewable):**
+- **Wind (💨)**: Available in open areas, variable output
+- **Sunlight (☀️)**: Available everywhere, varies by location/weather
+- **Water (💧)**: Flows naturally, can be collected/directed
+- **Soil (🌱)**: Can be improved/regenerated over time
+
+**Extracted Resources (Finite):**
+- **Coal (⛏️)**: High energy density, polluting
+- **Stone (🪨)**: Durable building material
+- **Ore (⚒️)**: Raw metal source, requires processing
+
+**Currency:**
+- **Credits (💰)**: Primary currency for trade and expansion
+
+**Production Chains:**
+
+**Energy Production:**
+- Coal → Energy (high output, polluting)
+- Wind → Energy (variable, clean)
+- Sunlight → Energy (reliable, clean)
+
+**Material Production:**
+- Coal + Ore → Metal (requires energy)
+- Stone → Building materials
+- Wood → Building materials (from forests)
+
+**Resource Flow:**
+```
+Collected: Wind/Sunlight + Water → Energy
+Extracted: Coal + Ore → Metal (using Energy)
+Combined: Energy + Materials → Advanced buildings
+```
+
+**Strategic Implications:**
+
+**Location Matters:**
+- Windy areas: Better wind energy production
+- Sunny areas: Better solar energy production
+- Mountainous areas: Access to coal, stone, ore
+- River areas: Water access, fertile soil
+
+**Resource Scarcity:**
+- Coal and ore are finite - creates tension
+- Wind/sunlight are renewable but location-dependent
+- Metal production requires both finite resources
+
+**Emergent Possibilities:**
+- Energy-rich areas can process more ore into metal
+- Metal scarcity creates trade opportunities
+- Different energy sources create different environmental impacts
+- Resource depletion forces adaptation
+
+## Turn Structure
+
+### Turn Phases:
+1. **Update Plots** - Production, market transactions, development
+2. **Hire/Fire Workers** - Manage workforce
+3. **Move Workers** - Position workers for next turn
+
+## Workers
+
+### Worker Types:
+- **Explorer** - Discovers new plots and hires local workers
+- **Farmer** - Develops farms, produces agricultural resources  
+- **Miner** - Develops mines, extracts finite resources
+- **Blacksmith** - Creates windmills, steam engines, tools
+- **Builder** - Develops towns and infrastructure
+
+### Worker Mechanics:
+- **Salary**: Paid in credits per turn
+- **Movement**: One plot per turn
+- **Hiring**: Explorers can hire local workers in discovered plots
+- **Specialization**: Each worker type has specific development abilities
+
+### Starting Conditions:
+- **Starting Credits**: Enough to hire explorer + farmer/miner + buy initial resources
+- **Starting Plot**: One developed town
+- **Bootstrap Strategy**: Explorer discovers → Hire local worker → Develop plot → Generate resources
