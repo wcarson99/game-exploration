@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary
 
-**Game Title**: Cute Civilization Builder  
+**Game Title**: Endless Empire  
 **Genre**: Strategic Puzzle/Strategy with Economic Focus  
 **Platform**: Browser-based, Mobile-optimized  
 **Session Length**: 5-minute rounds with longer runs or endless mode  
@@ -25,7 +25,6 @@ Players build and manage a civilization on a grid, discovering existing communit
 - **Accessible**: 5-minute rounds make it easy to pick up and play
 
 ### 2.3 Unique Selling Points
-- Simultaneous turn structure for fast-paced gameplay
 - Computer-managed world that evolves independently
 - Multiple achievement paths rather than single win condition
 - Offline capability with session persistence
@@ -63,7 +62,7 @@ Game state is stored as a JSON dictionary in localStorage with the following str
 - Each worker has a location and type
 ---
 
-## 4. Resource System
+## 4. Resources
 
 ### 4.1 Core Resources
 - **Money (💰)**: Primary currency for building and trading
@@ -212,8 +211,8 @@ Round 15: "You discover an ancient capital (25 buildings)"
 - **Mobile-optimized**: Responsive design, touch-friendly
 
 ### 9.2 Performance Requirements
-- **Load time**: < 3 seconds on mobile
-- **Frame rate**: 60 FPS for smooth animations
+- **Load time**: < 5 seconds on mobile
+- **Frame rate**: 30 FPS for smooth animations
 - **Memory usage**: < 100MB on mobile devices
 - **Battery efficiency**: Optimized for mobile play
 
