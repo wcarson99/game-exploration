@@ -1,18 +1,18 @@
 # UI/UX Design Document
 
-## Overview
+## 1. Overview
 
 The UI/UX design for Endless Empire focuses on a mobile-first, MVP approach with three core scenes and minimal complexity. The interface prioritizes clarity, touch-friendliness, and intuitive gameplay flow while maintaining the cute aesthetic and strategic depth of the game.
 
-## Core Concept
+## 2. Core Concept
 
 The UI is designed around a simple three-scene structure that guides players through the complete game loop. Each scene has a single, clear purpose with minimal navigation complexity. The design emphasizes touch-friendly interactions, clear visual feedback, and progressive disclosure of information.
 
 ---
 
-## MVP Scene Structure
+## 3. MVP Scene Structure
 
-### 1. Welcome Scene (Home)
+### 3.1. Welcome Scene (Home)
 **Purpose**: Entry point, shows achievements and best runs, starts/resumes game
 
 **Components**:
@@ -33,9 +33,9 @@ The UI is designed around a simple three-scene structure that guides players thr
 - **Bottom**: Achievement display and settings
 - **Corner**: Help button (always accessible)
 
-### 2. Turn Phase Scenes (3 scenes, one per phase)
+### 3.2. Turn Phase Scenes (3 scenes, one per phase)
 
-#### Market & Economy Scene
+#### 3.2.1. Market & Economy Scene
 **Purpose**: Resource trading and economic management
 
 **Components**:
@@ -52,7 +52,7 @@ The UI is designed around a simple three-scene structure that guides players thr
 - **Bottom**: Next Phase button
 - **Corner**: Help button
 
-#### Worker Actions Scene
+#### 3.2.2. Worker Actions Scene
 **Purpose**: Main gameplay interface for worker management
 
 **Components**:
@@ -71,7 +71,7 @@ The UI is designed around a simple three-scene structure that guides players thr
 - **Bottom**: Next Phase button
 - **Corner**: Help button
 
-#### Plot Production Scene
+#### 3.2.3. Plot Production Scene
 **Purpose**: Display production results and advance turn
 
 **Components**:
@@ -88,7 +88,7 @@ The UI is designed around a simple three-scene structure that guides players thr
 - **Bottom**: Next Turn button
 - **Corner**: Help button
 
-### 3. Game Over Scene
+### 3.3. Game Over Scene
 **Purpose**: Shows current game results and comparison to previous best
 
 **Components**:
@@ -112,9 +112,9 @@ The UI is designed around a simple three-scene structure that guides players thr
 
 ---
 
-## Help Menu System
+## 4. Help Menu System
 
-### Help Menu Structure
+### 4.1. Help Menu Structure
 **Purpose**: Provide static help content accessible from any scene
 
 **Components**:
@@ -140,27 +140,27 @@ The UI is designed around a simple three-scene structure that guides players thr
 
 ---
 
-## Visual Design Principles
+## 5. Visual Design Principles
 
-### Mobile-First Design
+### 5.1. Mobile-First Design
 - **Touch-Friendly**: Minimum 44px touch targets
 - **Responsive Layout**: Works on various screen sizes
 - **Portrait Optimized**: Primary orientation for mobile
 - **Landscape Support**: Functional but not primary
 
-### Information Hierarchy
+### 5.2. Information Hierarchy
 - **Primary Actions**: Most important buttons are largest and most prominent
 - **Secondary Actions**: Less important actions are smaller or in menus
 - **Contextual Information**: Show relevant info based on current state
 - **Progressive Disclosure**: Hide complexity until needed
 
-### Visual Feedback
+### 5.3. Visual Feedback
 - **Clear States**: Plots show clear visual states (unsettled, settled, developed)
 - **Worker Visualization**: Clear indication of worker locations and types
 - **Resource Changes**: Visual feedback for resource gains/losses
 - **Achievement Notifications**: Clear celebration of achievements
 
-### Accessibility
+### 5.4. Accessibility
 - **High Contrast**: Ensure text is readable on all backgrounds
 - **Scalable Text**: Support for larger text sizes
 - **Touch Targets**: Large enough for users with motor difficulties
@@ -168,21 +168,21 @@ The UI is designed around a simple three-scene structure that guides players thr
 
 ---
 
-## Interaction Patterns
+## 6. Interaction Patterns
 
-### Touch Interactions
+### 6.1. Touch Interactions
 - **Tap to Select**: Workers, plots, buttons
 - **Tap to Act**: Perform actions on selected items
 - **Swipe to Scroll**: Help menu, achievement lists
 - **Long Press**: Additional options (if needed)
 
-### Navigation Flow
+### 6.2. Navigation Flow
 - **Linear Progression**: Welcome → Turn Phases → Game Over → Welcome
 - **No Back Navigation**: Each scene has clear forward progression
 - **Resume Option**: Welcome scene handles interrupted games
 - **Help Access**: Always available via "?" button
 
-### State Management
+### 6.3. State Management
 - **Scene Transitions**: Smooth transitions between scenes
 - **State Persistence**: Automatic save between phases
 - **Error Handling**: Clear error messages and recovery options
@@ -190,21 +190,21 @@ The UI is designed around a simple three-scene structure that guides players thr
 
 ---
 
-## Technical Implementation
+## 7. Technical Implementation
 
-### Scene Management
+### 7.1. Scene Management
 - **Phaser 3 Scenes**: Each scene is a separate Phaser scene
 - **Scene Transitions**: Smooth fade transitions between scenes
 - **State Passing**: GameState passed between scenes
 - **Scene Cleanup**: Proper cleanup when leaving scenes
 
-### UI Components
+### 7.2. UI Components
 - **Button System**: Consistent button styling and behavior
 - **Modal System**: Reusable modal for help menu
 - **Grid System**: Flexible grid for game board
 - **Text System**: Consistent typography and sizing
 
-### Responsive Design
+### 7.3. Responsive Design
 - **Flexible Layouts**: Adapt to different screen sizes
 - **Touch Optimization**: Optimized for touch interaction
 - **Performance**: Smooth 30fps on target devices
@@ -212,21 +212,21 @@ The UI is designed around a simple three-scene structure that guides players thr
 
 ---
 
-## MVP Considerations
+## 8. MVP Considerations
 
-### Minimal Complexity
+### 8.1. Minimal Complexity
 - **Three Scenes Only**: Welcome, Turn Phases, Game Over
 - **No Pause System**: No real-time elements requiring pause
 - **Simple Navigation**: Linear progression with clear next steps
 - **Essential Features Only**: Core gameplay without extras
 
-### Record Tracking
+### 8.2. Record Tracking
 - **Previous Best Display**: Show longest run and most profitable game
 - **New Record Indicators**: Celebrate when players beat their records
 - **Persistent Storage**: Save records in localStorage
 - **Simple Metrics**: Focus on turns and profit
 
-### Help System
+### 8.3. Help System
 - **Static Content**: No dynamic tutorial logic
 - **Always Available**: "?" button on every scene
 - **Topic-Based**: Organized help content
@@ -234,21 +234,21 @@ The UI is designed around a simple three-scene structure that guides players thr
 
 ---
 
-## Future Enhancements
+## 9. Future Enhancements
 
-### Advanced UI Features
+### 9.1. Advanced UI Features
 - **Animations**: Smooth animations for state changes
 - **Sound Effects**: Audio feedback for interactions
 - **Particle Effects**: Visual effects for achievements
 - **Custom Themes**: Different visual themes
 
-### Enhanced Help System
+### 9.2. Enhanced Help System
 - **Interactive Tutorial**: Step-by-step guided tutorial
 - **Video Help**: Embedded video explanations
 - **Community Tips**: User-generated tips and strategies
 - **Contextual Help**: Help that appears based on current situation
 
-### Additional Scenes
+### 9.3. Additional Scenes
 - **Settings Scene**: More detailed game settings
 - **Statistics Scene**: Detailed game statistics
 - **Achievement Gallery**: Full achievement showcase

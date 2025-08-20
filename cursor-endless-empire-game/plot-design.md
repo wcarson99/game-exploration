@@ -1,30 +1,30 @@
 # Plot System Design Document
 
-## Overview
+## 1. Overview
 
 The Plot system is a fundamental component of the Endless Empire game, representing individual grid locations that can be discovered, developed, and worked to produce resources. Each plot has unique resource ratings and can be transformed into different development types based on available resources and worker actions.
 
-## Core Concept
+## 2. Core Concept
 
 Plots are the building blocks of the game world, each with inherent resource potential that determines what can be built and how efficiently it can produce resources. Plots start as unsettled, can be converted to settled through exploration, and then developed into specific types of infrastructure that generate different resources.
 
 ---
 
-## Plot States
+## 3. Plot States
 
-### 1. Unsettled
+### 3.1. Unsettled
 **Description**: Undiscovered plots that are not yet available for development
 **Visibility**: Hidden from player until discovered
 **Actions Available**: None (must be settled first)
 **Resource Ratings**: Unknown until settled
 
-### 2. Settled
+### 3.2. Settled
 **Description**: Discovered plots that are available for development
 **Visibility**: Visible to player with resource ratings revealed
 **Actions Available**: Can hire workers, can be developed
 **Resource Ratings**: Fully visible (0-10 for each resource type)
 
-### 3. Developed
+### 3.3. Developed
 **Description**: Plots that have been transformed into specific infrastructure
 **Types**: Farm, Mine, Power Plant, Town, Market
 **Actions Available**: Can be worked by appropriate workers
