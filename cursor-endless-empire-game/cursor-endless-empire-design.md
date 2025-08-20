@@ -98,7 +98,242 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ---
 
-## 7. Map & World System
+## 7. Software Architecture
+
+### 7.1 System Overview
+
+The game follows a modular architecture with GameState as the central coordinator. All systems interact through well-defined interfaces, with clear separation of concerns and data flow.
+
+**Core Architecture:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        UI Layer                             │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │   Welcome   │ │ Turn Phases │ │ Game Over   │           │
+│  │   Scene     │ │   Scenes    │ │   Scene     │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    GameState (Central)                      │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ Turn Mgmt   │ │ State       │ │ Persistence │           │
+│  │ & Phases    │ │ Validation  │ │ & Save/Load │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                    ┌─────────┼─────────┐
+                    ▼         ▼         ▼
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│    Map      │ │   Market    │ │   Workers   │ │    Plots    │
+│  System     │ │   System    │ │   System    │ │   System    │
+└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘
+```
+
+### 7.2 System Relationships
+
+**Data Flow Architecture:**
+```
+UI Scenes
+    │
+    ▼
+GameState (Central Coordinator)
+    │
+    ├─── Map System
+    │    ├─── Grid Management
+    │    ├─── World Generation
+    │    └─── Community Discovery
+    │
+    ├─── Market System
+    │    ├─── Resource Trading
+    │    ├─── Dynamic Pricing
+    │    └─── Transaction Management
+    │
+    ├─── Worker System
+    │    ├─── Worker Management
+    │    ├─── Action Processing
+    │    └─── Movement & Development
+    │
+    └─── Plot System
+         ├─── Plot States
+         ├─── Resource Ratings
+         └─── Production Management
+```
+
+### 7.3 Component Responsibilities
+
+**GameState (Central Coordinator):**
+- Manages turn progression and phases
+- Coordinates all system interactions
+- Handles state persistence and validation
+- Provides single source of truth for game data
+
+**Map System:**
+- Manages 2D grid structure
+- Handles world generation and procedural content
+- Tracks community discovery and development
+- Provides spatial relationships and pathfinding
+
+**Market System:**
+- Manages resource trading and pricing
+- Handles supply/demand dynamics
+- Processes transactions and economic balance
+- Provides resource availability information
+
+**Worker System:**
+- Manages worker types and actions
+- Handles worker movement and development
+- Processes worker salaries and costs
+- Coordinates worker-plot interactions
+
+**Plot System:**
+- Manages plot states and development
+- Handles resource ratings and production
+- Processes plot development requirements
+- Coordinates plot-worker interactions
+
+**UI System:**
+- Manages scene transitions and user interaction
+- Displays game state and feedback
+- Handles input processing and validation
+- Provides help system and navigation
+
+### 7.4 Data Flow Patterns
+
+**Turn Progression Flow:**
+```
+1. UI Scene → GameState.advancePhase()
+2. GameState → Market.updatePrices()
+3. GameState → Workers.processActions()
+4. GameState → Plots.generateProduction()
+5. GameState → Map.updateCommunities()
+6. GameState.save() → localStorage
+7. GameState → UI Scene (next phase)
+```
+
+**State Persistence Flow:**
+```
+GameState.save()
+    │
+    ├─── Serialize all system states
+    │    ├─── Map.grid → JSON
+    │    ├─── Market.resources → JSON
+    │    ├─── Workers[] → JSON
+    │    └─── Plots[] → JSON
+    │
+    └─── localStorage.setItem()
+```
+
+**System Integration Flow:**
+```
+Worker.move(targetPlot)
+    │
+    ├─── Map.isValidPosition(targetPlot)
+    ├─── Plot.canAcceptWorker(worker)
+    ├─── GameState.validateAction(worker, action)
+    └─── GameState.updateWorkerPosition(worker, targetPlot)
+```
+
+### 7.5 Implementation Strategy
+
+**Phase 1: Core Systems (Bottom-Up)**
+```
+1. Plot System (Foundation)
+   ├─── Plot states and resource ratings
+   ├─── Basic plot operations
+   └─── Plot validation
+
+2. Worker System (Building on Plots)
+   ├─── Worker types and actions
+   ├─── Worker-plot interactions
+   └─── Action validation
+
+3. Market System (Economic Layer)
+   ├─── Resource trading interface
+   ├─── Dynamic pricing
+   └─── Transaction processing
+
+4. Map System (Spatial Layer)
+   ├─── Grid management
+   ├─── World generation
+   └─── Community discovery
+
+5. GameState (Central Coordinator)
+   ├─── State management
+   ├─── Turn progression
+   └─── System coordination
+```
+
+**Phase 2: UI Layer (Top-Down)**
+```
+1. GameState Integration
+   ├─── State observation
+   ├─── Action dispatching
+   └─── Scene transitions
+
+2. Scene Implementation
+   ├─── Welcome scene
+   ├─── Turn phase scenes
+   └─── Game over scene
+
+3. UI Components
+   ├─── Grid rendering
+   ├─── Resource displays
+   └─── Help system
+```
+
+### 7.6 Code Organization
+
+**File Structure:**
+```
+src/
+├── core/
+│   ├── GameState.ts          # Central state management
+│   ├── Map.ts               # World and grid management
+│   ├── Market.ts            # Resource trading system
+│   ├── Worker.ts            # Worker management
+│   └── Plot.ts              # Plot management
+├── ui/
+│   ├── scenes/
+│   │   ├── WelcomeScene.ts
+│   │   ├── MarketScene.ts
+│   │   ├── WorkerScene.ts
+│   │   ├── ProductionScene.ts
+│   │   └── GameOverScene.ts
+│   ├── components/
+│   │   ├── Grid.ts
+│   │   ├── ResourceDisplay.ts
+│   │   └── HelpModal.ts
+│   └── utils/
+│       ├── InputHandler.ts
+│       └── SceneManager.ts
+├── types/
+│   ├── GameState.ts         # TypeScript interfaces
+│   ├── Resources.ts
+│   └── Workers.ts
+└── utils/
+    ├── Persistence.ts       # Save/load utilities
+    ├── Validation.ts        # State validation
+    └── Constants.ts         # Game constants
+```
+
+**Module Dependencies:**
+```
+UI Scenes
+    │
+    ▼
+GameState (imports all core systems)
+    │
+    ├─── Map (imports Plot)
+    ├─── Market (standalone)
+    ├─── Worker (imports Plot)
+    └─── Plot (standalone)
+```
+
+---
+
+## 8. Map & World System
 
 *For detailed map and world system specifications, see [map-design.md](map-design.md)*
 
@@ -114,20 +349,15 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ## 8. Achievement & Progression System
 
-### 8.1 Achievement Categories
-- **Size Achievements**: "Reach 16 buildings", "Build a metropolis"
-- **Production Achievements**: "Generate 100 gold in one turn"
-- **Longevity Achievements**: "Survive 20 turns without bankruptcy"
-- **Efficiency Achievements**: "Have 3 markets connected"
-- **Variety Achievements**: "Build one of each building type"
-- **Exploration Achievements**: "Discover 5 different communities"
+*For detailed achievement and progression specifications, see [game-state-design.md](game-state-design.md) section 9.4*
 
-### 8.2 Multiple Paths to Success
-- **Economic Victory**: Achieve massive wealth
-- **Cultural Victory**: Establish trade with all communities
-- **Efficiency Victory**: Maximize resource production
-- **Exploration Victory**: Discover the entire world
-- **Longevity Victory**: Survive and thrive for extended periods
+**Overview**: The game features multiple achievement paths and victory conditions, tracked through the GameState system.
+
+**Key Concepts**:
+- **Achievement Categories**: Size, Production, Longevity, Efficiency, Variety, Exploration
+- **Multiple Victory Paths**: Economic, Cultural, Efficiency, Exploration, Longevity
+- **Progressive Unlocking**: Achievements unlock new content and abilities
+- **Record Tracking**: Personal best runs and performance metrics
 
 ---
 
@@ -153,19 +383,17 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ---
 
-## 10. Visual Design
+## 10. UI/UX Design
 
-### 10.1 Art Style
-- **Aesthetic**: Cute, friendly, warm colors
-- **Style**: Minimalist geometric with rounded edges
-- **Palette**: Warm earth tones, pastels, vibrant accents
-- **Animation**: Simple, smooth, delightful micro-interactions
+*For detailed UI/UX specifications, see [ui-design.md](ui-design.md)*
 
-### 10.2 UI/UX Principles
-- **Clarity**: Clear visual hierarchy and information architecture
-- **Accessibility**: High contrast, readable fonts, scalable interface
-- **Delight**: Satisfying feedback, smooth transitions, playful elements
-- **Efficiency**: Minimal clicks/taps to complete actions
+**Overview**: The UI follows a mobile-first, MVP approach with three core scenes and minimal complexity.
+
+**Key Concepts**:
+- **MVP Scene Structure**: Welcome, Turn Phases, Game Over
+- **Mobile-First Design**: Touch-friendly, responsive layout
+- **Help System**: Static help menu accessible from any scene
+- **Record Tracking**: Previous best runs displayed in welcome scene
 
 ---
 
@@ -222,29 +450,30 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ## 14. Development Roadmap
 
-### 14.1 Phase 1: Core Prototype
-- Basic grid system and building placement
-- Simple resource management
-- Turn structure implementation
-- Basic UI framework
+### 14.1 Phase 1: Core Systems Implementation
+- **GameState System**: Central state management and persistence
+- **Map System**: Grid structure and world generation
+- **Worker System**: Worker types, actions, and mechanics
+- **Plot System**: Plot states, development, and production
+- **Market System**: Resource trading and dynamic pricing
 
-### 14.2 Phase 2: Core Gameplay
-- Worker system implementation
-- Community discovery mechanics
-- Achievement system
-- Basic audio and visual polish
+### 14.2 Phase 2: UI Implementation
+- **Scene Management**: Welcome, Turn Phases, Game Over scenes
+- **Mobile Optimization**: Touch-friendly interface and responsive design
+- **Help System**: Static help menu and documentation
+- **Record Tracking**: Achievement display and personal best tracking
 
-### 14.3 Phase 3: Polish & Features
-- Advanced building synergies
-- Environmental events
-- Mobile optimization
-- Offline capability
+### 14.3 Phase 3: Integration & Polish
+- **System Integration**: Connect all systems through GameState
+- **Performance Optimization**: Mobile performance and memory management
+- **Audio & Visual Polish**: Sound effects, music, and visual feedback
+- **Testing & Balance**: Gameplay testing and economic balance
 
 ### 14.4 Phase 4: Launch Preparation
-- Performance optimization
-- User testing and feedback
-- Bug fixes and balance adjustments
-- Launch marketing materials
+- **Performance Optimization**: 60fps on target devices
+- **User Testing**: Mobile UX validation and feedback
+- **Bug Fixes**: Critical issues and edge case handling
+- **Launch Materials**: Marketing assets and documentation
 
 ---
 
@@ -302,16 +531,40 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ---
 
-## 18. Appendix
+## 18. Detailed System Documentation
 
-### 18.1 Inspiration Sources
+### 18.1 Core System Documents
+- **[GameState Design](game-state-design.md)**: Central state management, turn structure, persistence
+- **[Map Design](map-design.md)**: World generation, community discovery, grid management
+- **[Worker Design](worker-design.md)**: Worker types, actions, mechanics, and strategy
+- **[Plot Design](plot-design.md)**: Plot states, development, resource ratings, production
+- **[Market Design](market-design.md)**: Resource trading, dynamic pricing, economic balance
+- **[UI Design](ui-design.md)**: Scene structure, mobile interface, help system
+
+### 18.2 Documentation Strategy
+- **Modular Design**: Each system has its own focused design document
+- **Cross-References**: Documents reference each other for integration details
+- **Implementation Ready**: Each document includes TypeScript interfaces and methods
+- **LLM Optimized**: Structured for effective code generation and prototyping
+
+### 18.3 Development Guidance
+- **Start with GameState**: Implement central state management first
+- **System by System**: Build each system using its focused design document
+- **Integration Testing**: Use cross-references to ensure proper system interaction
+- **UI Last**: Implement UI after core systems are functional
+
+---
+
+## 19. Appendix
+
+### 19.1 Inspiration Sources
 - **Slay the Spire**: Deck-building and strategic depth
 - **Dawncaster**: Mobile-optimized card game design
 - **Magic: The Gathering**: Multiple win conditions
 - **Civilization**: 4X elements and progression
 - **SimCity**: Economic building and management
 
-### 18.2 Technical References
+### 19.2 Technical References
 - **HTML5 Game Development**: Best practices and frameworks
 - **Mobile Game Design**: Touch interface and performance optimization
 - **Progressive Web Apps**: Offline capability and installation
