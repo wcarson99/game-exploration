@@ -34,54 +34,32 @@ Players build and manage a civilization on a grid, discovering existing communit
 
 ## 3. Core Gameplay Mechanics
 
-### 3.1 Turn Structure
-**Turn Phases**:
-1. **Market & Economy** - Buy/sell resources, transactions, worker salaries, resource consumption
-2. **Worker Actions** - Move, develop plots, work plots (with resources already available)
-3. **Plot Production** - Resources generated based on worker actions
+### 3.1 Turn Structure & Game State
 
-**Turn Flow**:
-- Each turn represents a period of development and exploration
-- Market activity happens first (buy resources needed for development)
-- Workers perform their actions with resources already available
-- Plot production follows from worker actions
+*For detailed turn structure and game state specifications, see [game-state-design.md](game-state-design.md)*
 
-### 3.2 Game State
-Game state is stored as a JSON dictionary in localStorage with the following structure:
-- **turn**: Current turn number
-- **phase**: Current phase ("market_economy", "worker_actions", "plot_production")
-- **plots**: Array of plot objects
-- **workers**: Array of worker objects
+**Overview**: The game uses a three-phase turn system with centralized state management. GameState serves as the single source of truth for all game data and coordinates between all systems.
 
-**Plot Data Structure:**
-- Each plot has ratings for each collected and extracted resource
-- Owner (player/computer)
-- State of undeveloped, farm, mine, power plant, town
-
-**Worker Data Structure:**
-- Each worker has a location and type
+**Key Concepts**:
+- **Three-Phase Turns**: Market & Economy → Worker Actions → Plot Production
+- **Centralized State**: GameState manages all game data and system coordination
+- **Persistence**: Automatic save/load to localStorage with JSON serialization
+- **State Validation**: Data integrity checks and error recovery
+- **System Integration**: Coordinates Map, Market, Workers, and Plots
 ---
 
-## 4. Resources
+## 4. Market & Resources
 
-### 4.1 Core Resources
-- **Money (💰)**: Primary currency for building and trading
-- **Energy (⚡)**: Powers advanced buildings and special abilities
-- **Food (🍎)**: Sustains population and enables growth
-- **Trade Goods (📦)**: Specialized resources for community interaction
+*For detailed market and resource system specifications, see [market-design.md](market-design.md)*
 
-### 4.2 Resource Categories
+**Overview**: The market system provides a centralized economic hub where players buy and sell resources. It features dynamic pricing based on supply and demand, creating strategic economic decisions.
 
-**Collected Resources (Renewable)**:
-- **Wind (💨)**: Available in open areas, variable output
-- **Sunlight (☀️)**: Available everywhere, varies by location/weather
-- **Water (💧)**: Flows naturally, can be collected/directed
-- **Soil (🌱)**: Can be improved/regenerated over time
-
-**Extracted Resources (Finite)**:
-- **Coal (⛏️)**: High energy density, polluting
-- **Stone (🪨)**: Durable building material
-- **Ore (⚒️)**: Raw metal source, requires processing
+**Key Concepts**:
+- **Central Market**: Single trading hub for all resource transactions
+- **Dynamic Pricing**: Prices adjust based on supply and demand
+- **Resource Types**: 7 resource types (Wind, Sunlight, Water, Soil, Coal, Stone, Ore)
+- **Trading Interface**: Plots can buy/sell resources through market methods
+- **Economic Balance**: Market never runs out of resources or money
 
 ---
 
@@ -120,27 +98,17 @@ Game state is stored as a JSON dictionary in localStorage with the following str
 
 ---
 
-## 7. World & Exploration
+## 7. Map & World System
 
-### 7.1 Computer-Managed World
-- **Initial Environment**: Computer generates starting world and resources
-- **Community Discovery**: As player explores, computer reveals existing communities
-- **Community Development**: Discovered communities grow and evolve over time
-- **Environmental Events**: Market fluctuations, seasonal changes, special events
+*For detailed map and world system specifications, see [map-design.md](map-design.md)*
 
-### 7.2 Community Discovery System
-```
-Round 1:  "You discover a small fishing village (3 buildings)"
-Round 5:  "You find a bustling market town (8 buildings)"
-Round 10: "You encounter a major trading city (15 buildings)"
-Round 15: "You discover an ancient capital (25 buildings)"
-```
+**Overview**: The map system manages the grid-based world structure, procedural world generation, community discovery, and turn management. It serves as the foundation that connects all other game systems.
 
-### 7.3 Community Interaction
-- **Trade Relationships**: Establish markets in discovered communities
-- **Cultural Exchange**: Learn new building types from advanced communities
-- **Resource Competition**: Compete for limited resources and trade routes
-- **Cooperation**: Form alliances and share benefits with communities
+**Key Concepts**:
+- **Grid Structure**: 2D grid of plots with adjacency and boundaries
+- **World Generation**: Procedural generation with seed-based determinism
+- **Community Discovery**: Computer-managed communities revealed through exploration
+- **System Coordination**: Integrates with GameState for turn progression and state management
 
 ---
 
