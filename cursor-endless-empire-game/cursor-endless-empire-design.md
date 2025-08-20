@@ -87,75 +87,36 @@ Game state is stored as a JSON dictionary in localStorage with the following str
 
 ## 5. Plot System
 
-### 5.1 Plot Resource Ratings
-Each plot has a rating of 0-10 for each resource type:
+*For detailed plot system specifications, see [plot-design.md](plot-design.md)*
 
-**Collected Resources (Renewable)**:
-- **Wind (💨)**: 0-10 rating based on elevation and exposure
-- **Sunlight (☀️)**: 0-10 rating based on latitude and weather patterns
-- **Water (💧)**: 0-10 rating based on proximity to rivers/lakes
-- **Soil (🌱)**: 0-10 rating based on fertility and drainage
+**Overview**: Plots are the building blocks of the game world, each with inherent resource potential that determines what can be built and how efficiently it can produce resources.
 
-**Extracted Resources (Finite)**:
-- **Coal (⛏️)**: 0-10 rating based on geological deposits
-- **Stone (🪨)**: 0-10 rating based on rock formations
-- **Ore (⚒️)**: 0-10 rating based on mineral deposits
+**Key Concepts**:
+- **Plot States**: Unsettled → Settled → Developed
+- **Resource Ratings**: 0-10 ratings for 7 resource types (Wind, Sunlight, Water, Soil, Coal, Stone, Ore)
+- **Development Types**: Farm, Mine, Windmill, Water Mill, Boiler, Market, Town
+- **Worker Requirements**: Each development type requires specific worker types
+- **Production System**: Developed plots generate resources based on ratings and worker presence
 
-### 5.2 Plot Development
-Plots can be developed for specific roles by placing the appropriate worker and providing necessary resources:
-
-- **Farmer** → Creates a **Farm** (requires soil + water)
-- **Miner** → Creates a **Mine** (requires stone/coal/ore deposits)
-- **Blacksmith** → Creates **Windmill** (requires wind), **Water Mill** (requires water), or **Boiler** (requires coal)
-- **Trader** → Creates a **Market** (requires population and trade routes)
-
-### 5.3 Development Mechanics
-- **Resource Requirements**: Each development type requires specific resource ratings
-- **Worker Specialization**: Only the appropriate worker type can develop each plot type
-- **Development Cost**: Credits and materials required to establish the development
-- **Production Output**: Higher resource ratings result in better production efficiency
-
-### 5.4 Starting Conditions
-**Player Starting Assets:**
-- **1 Town**: Starting base of operations
-- **TBD Credits**: Starting money (amount to be determined)
-- **1 Explorer**: Starting worker for discovery
-
-**World Generation:**
-- **Map**: Either read from file OR procedurally generated
+**Starting Conditions**:
+- **Player Assets**: 1 Town, TBD Credits, 1 Explorer
+- **World Generation**: Procedurally generated or read from file
 - **Computer Towns**: 0 or more existing communities to discover
 
 ---
 
 ## 6. Worker System
 
-### 6.1 Worker Types
-- **Explorer**: Discovers new plots and converts them from unsettled to settled
-- **Farmer**: Develops farms, produces agricultural resources
-- **Miner**: Develops mines, extracts finite resources
-- **Blacksmith**: Creates windmills, steam engines, tools
-- **Trader**: Creates markets and manages trade relationships
+*For detailed worker system specifications, see [worker-design.md](worker-design.md)*
 
-### 6.2 Worker Mechanics
-- **Salary**: 1 credit per turn per worker
-- **Movement**: One plot per turn
-- **Hiring**: Any settled plot can hire workers (player chooses worker type)
-- **Specialization**: Each worker type has specific development abilities
+**Overview**: Workers are specialized units that can be hired at settled plots to perform specific actions. Each worker type has unique abilities and can only perform certain development and production tasks.
 
-### 6.3 Worker Actions
-**Explorer Actions:**
-- **Move**: Go to unsettled plot
-- **Settle**: Convert plot from unsettled to settled, reveal plot attributes
-
-**Other Worker Actions:**
-- **Move**: Go to a settled plot
-- **Develop Plot**: Transform settled plot into specific type (requires resources)
-- **Work Plot**: Generate production from developed plot (ongoing action)
-
-**Key Rules:**
-- **No Worker = No Production**: Undeveloped plots and developed plots without workers produce nothing
-- **Worker Allocation**: Each worker can only do one action per turn
-- **Strategic Choices**: Balance between exploring/settling, developing new plots, and working existing plots
+**Key Concepts**:
+- **5 Worker Types**: Explorer, Farmer, Miner, Blacksmith, Trader
+- **Action System**: One action per turn per worker (move, settle, develop, work)
+- **Specialization**: Each worker type can only develop specific plot types
+- **Economic Cost**: 1 credit salary per turn per worker
+- **Strategic Depth**: Balance between exploration, development, and production
 
 ---
 
